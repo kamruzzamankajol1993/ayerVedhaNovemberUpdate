@@ -249,8 +249,17 @@ Inventory List | {{ $ins_name }}
                                             </div>
                                             <div class="col-12 mb-2">
                                                 <label for="" class="form-label">Unit</label>
-                                                <input type="text" name="unit" value="{{ $allmedicineEquipment->unit }}"
-                                                class="form-control"/>
+                                                {{-- <input type="text" name="unit" value="{{ $allmedicineEquipment->unit }}"
+                                                class="form-control"/> --}}
+
+                                                <select name ="unit" class="form-control">
+                                                    <option>--Select One --</option>
+
+                    <option value="gram" {{ $allmedicineEquipment->unit == 'gram' ? 'selected':''}}>gram</option>
+                    <option value="pics" {{ $allmedicineEquipment->unit == 'pics' ? 'selected':''}}>pics</option>
+                    </select>
+
+
                                             </div>
 
                                         </div>
@@ -346,8 +355,19 @@ Inventory List | {{ $ins_name }}
                         </div>
                         <div class="col-12 mb-2">
                             <label for="" class="form-label">Unit</label>
-                            <input type="text" name="unit" value=""
-                            class="form-control"/>
+                            {{-- <input type="text" name="unit" value=""
+                            class="form-control"/> --}}
+
+
+                            <select name ="unit" class="form-control">
+                                <option>--Select One --</option>
+
+<option value="gram">gram</option>
+<option value="pics">pics</option>
+</select>
+
+
+
                         </div>
 
                     </div>

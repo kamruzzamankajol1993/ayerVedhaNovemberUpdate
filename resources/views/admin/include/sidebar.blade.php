@@ -459,6 +459,15 @@ $usr = Auth::guard('admin')->user();
                 @endif
 
 
+                 @if ($usr->can('otherEquipmentAdd') || $usr->can('otherEquipmentView') || $usr->can('otherEquipmentDelete') || $usr->can('otherEquipmentUpdate'))
+                <li class="nav-item">
+                    <a class="nav-link menu-link {{ Route::is('otherEquipment.index') ? 'active' : '' }}" href="{{ route('otherEquipment.index') }}">
+                        <i class="bx bxs-file-plus"></i> <span data-key="t-widgets">Other Equipment</span>
+                    </a>
+                </li>
+                @endif
+
+
 
                 @endif
                 @if ($usr->can('rewardAdd') || $usr->can('rewardView') || $usr->can('rewardDelete') || $usr->can('rewardUpdate') || $usr->can('therapistAdd') || $usr->can('therapistView') || $usr->can('therapistDelete') || $usr->can('therapistUpdate') || $usr->can('staffAdd') || $usr->can('staffView') || $usr->can('staffDelete') || $usr->can('staffUpdate'))

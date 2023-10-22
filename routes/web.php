@@ -46,6 +46,7 @@ use App\Http\Controllers\InventoryNameController;
 use App\Http\Controllers\Admin\DiscountController;
 use App\Http\Controllers\Admin\VatController;
 use App\Http\Controllers\Admin\InventoryDamageController;
+use App\Http\Controllers\Admin\OtherEquipmentController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -84,7 +85,7 @@ Route::group(['prefix' => 'admin'], function () {
 
     //therapy_package
 
-
+    Route::resource('otherEquipment', OtherEquipmentController::class);
 
 
     Route::resource('inventoryDamage', InventoryDamageController::class);
