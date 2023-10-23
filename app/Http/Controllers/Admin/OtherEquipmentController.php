@@ -47,19 +47,21 @@ class OtherEquipmentController extends Controller
 
     public function store(Request $request){
 
-        dd($request->all());
-
-        $formCategory = substr($request->category,-1);
 
 
 
-        $finalResult = substr($request->category, 0, -2);
 
-        dd($finalResult);
+        //dd($finalResult);
 
         //new code
 
         if($request->equipmentType == 'normal'){
+
+            $formCategory = substr($request->category,-1);
+
+
+
+            $finalResult = substr($request->category, 0, -2);
 
 
             if($formCategory == 1){
@@ -95,7 +97,7 @@ class OtherEquipmentController extends Controller
             ]);
 
 
-                  
+
 
 
 
@@ -103,8 +105,69 @@ class OtherEquipmentController extends Controller
             }elseif($formCategory == 2){
 
 
+                $getPreviousQuantity = MedicineEquipment::where('name',$request->category)->value('quantity');
+
+                $finalResult =$getPreviousQuantity - $request->quantity;
+
+
+
+
+                     $mainOtherEquipment = new OtherEquipment();
+                     $mainOtherEquipment->name =$request->name();
+                     $mainOtherEquipment->save();
+
+
+                     $mainOtherEquipmentId = $mainOtherEquipment->id;
+
+
+                     $otherInfoDetail = new OtherEquipmentDetail();
+                     $otherInfoDetail->other_equipment_id = $mainOtherEquipmentId;
+                     $otherInfoDetail->name = $request->category;
+                     $otherInfoDetail->quantity =$request->quantity;
+                     $otherInfoDetail->unit =$request->unit;
+                     $otherInfoDetail->save();
+
+
+                     MedicineEquipment::where('name',$request->category)
+           ->update([
+               'quantity' => $finalResult
+            ]);
+
+
+
+
 
             }elseif($formCategory == 3){
+
+
+
+                $getPreviousQuantity = OtherIngredient::where('name',$request->category)->value('quantity');
+
+                $finalResult =$getPreviousQuantity - $request->quantity;
+
+
+
+
+                     $mainOtherEquipment = new OtherEquipment();
+                     $mainOtherEquipment->name =$request->name();
+                     $mainOtherEquipment->save();
+
+
+                     $mainOtherEquipmentId = $mainOtherEquipment->id;
+
+
+                     $otherInfoDetail = new OtherEquipmentDetail();
+                     $otherInfoDetail->other_equipment_id = $mainOtherEquipmentId;
+                     $otherInfoDetail->name = $request->category;
+                     $otherInfoDetail->quantity =$request->quantity;
+                     $otherInfoDetail->unit =$request->unit;
+                     $otherInfoDetail->save();
+
+
+                     OtherIngredient::where('name',$request->category)
+           ->update([
+               'quantity' => $finalResult
+            ]);
 
             }
 
@@ -114,7 +177,10 @@ class OtherEquipmentController extends Controller
 
         }elseif($request->equipmentType == 'mixer'){
 
+            dd($request->all());
 
+            $inputAllData = $request->all();
+            $therapyName = $inputAllData['therapy_id'];
 
 
 
