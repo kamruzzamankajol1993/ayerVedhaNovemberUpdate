@@ -74,7 +74,7 @@ $otherDetail = $allOtherEquipments->otherEquipmentDetails;
     @foreach($otherDetail as $allOtherDetail)
 
 
-{{ $allOtherDetail->name.'-'.$allOtherDetail->quantity.'('.$allOtherDetail->quantity.')' }} <br>
+{{ $allOtherDetail->name.'-'.$allOtherDetail->quantity.'('.$allOtherDetail->unit.')' }} <br>
 
 
     @endforeach
@@ -89,11 +89,11 @@ $otherDetail = $allOtherEquipments->otherEquipmentDetails;
 
 
 
-                                              @if (Auth::guard('admin')->user()->can('otherEquipmenUpdate'))
+                                              {{-- @if (Auth::guard('admin')->user()->can('otherEquipmenUpdate'))
   <button type="button" class="btn btn-primary waves-light waves-effect  btn-sm" onclick="window.location.href='{{ route('otherEquipment.edit',$user->id) }}'"><i class="ri-pencil-fill"></i></button>
-  @endif
+  @endif --}}
 
-                                    @if (Auth::guard('admin')->user()->can('otherEquipmenDelete'))
+                                    @if (Auth::guard('admin')->user()->can('otherEquipmentDelete'))
 
   <button   type="button" class="btn btn-danger waves-light waves-effect  btn-sm" onclick="deleteTag({{ $allOtherEquipments->id}})" data-toggle="tooltip" title="Delete"><i class="ri-delete-bin-5-fill"></i></button>
   <form id="delete-form-{{ $allOtherEquipments->id }}" action="{{ route('otherEquipment.destroy',$allOtherEquipments->id) }}" method="POST" style="display: none;">

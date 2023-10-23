@@ -61,14 +61,14 @@ class OtherEquipmentController extends Controller
 
 
 
-            $finalResult = substr($request->category, 0, -2);
+            $finalResult1 = substr($request->category, 0, -2);
 
 
             if($formCategory == 1){
 
 
 
-                $getPreviousQuantity = TherapyIngredient::where('name',$request->category)->value('quantity');
+                $getPreviousQuantity = TherapyIngredient::where('name',$finalResult1)->value('quantity');
 
                 $finalResult =$getPreviousQuantity - $request->quantity;
 
@@ -85,13 +85,13 @@ class OtherEquipmentController extends Controller
 
                      $otherInfoDetail = new OtherEquipmentDetail();
                      $otherInfoDetail->other_equipment_id = $mainOtherEquipmentId;
-                     $otherInfoDetail->name = $request->category;
+                     $otherInfoDetail->name = $finalResult1;
                      $otherInfoDetail->quantity =$request->quantity;
                      $otherInfoDetail->unit =$request->unit;
                      $otherInfoDetail->save();
 
 
-                     TherapyIngredient::where('name',$request->category)
+                     TherapyIngredient::where('name',$finalResult1)
            ->update([
                'quantity' => $finalResult
             ]);
@@ -105,7 +105,7 @@ class OtherEquipmentController extends Controller
             }elseif($formCategory == 2){
 
 
-                $getPreviousQuantity = MedicineEquipment::where('name',$request->category)->value('quantity');
+                $getPreviousQuantity = MedicineEquipment::where('name',$finalResult1)->value('quantity');
 
                 $finalResult =$getPreviousQuantity - $request->quantity;
 
@@ -113,7 +113,7 @@ class OtherEquipmentController extends Controller
 
 
                      $mainOtherEquipment = new OtherEquipment();
-                     $mainOtherEquipment->name =$request->name();
+                     $mainOtherEquipment->name =$request->name;
                      $mainOtherEquipment->save();
 
 
@@ -122,13 +122,13 @@ class OtherEquipmentController extends Controller
 
                      $otherInfoDetail = new OtherEquipmentDetail();
                      $otherInfoDetail->other_equipment_id = $mainOtherEquipmentId;
-                     $otherInfoDetail->name = $request->category;
+                     $otherInfoDetail->name = $finalResult1;
                      $otherInfoDetail->quantity =$request->quantity;
                      $otherInfoDetail->unit =$request->unit;
                      $otherInfoDetail->save();
 
 
-                     MedicineEquipment::where('name',$request->category)
+                     MedicineEquipment::where('name',$finalResult1)
            ->update([
                'quantity' => $finalResult
             ]);
@@ -141,7 +141,7 @@ class OtherEquipmentController extends Controller
 
 
 
-                $getPreviousQuantity = OtherIngredient::where('name',$request->category)->value('quantity');
+                $getPreviousQuantity = OtherIngredient::where('name',$finalResult1)->value('quantity');
 
                 $finalResult =$getPreviousQuantity - $request->quantity;
 
@@ -158,13 +158,13 @@ class OtherEquipmentController extends Controller
 
                      $otherInfoDetail = new OtherEquipmentDetail();
                      $otherInfoDetail->other_equipment_id = $mainOtherEquipmentId;
-                     $otherInfoDetail->name = $request->category;
+                     $otherInfoDetail->name = $finalResult1;
                      $otherInfoDetail->quantity =$request->quantity;
                      $otherInfoDetail->unit =$request->unit;
                      $otherInfoDetail->save();
 
 
-                     OtherIngredient::where('name',$request->category)
+                     OtherIngredient::where('name',$finalResult1)
            ->update([
                'quantity' => $finalResult
             ]);
@@ -177,10 +177,136 @@ class OtherEquipmentController extends Controller
 
         }elseif($request->equipmentType == 'mixer'){
 
-            dd($request->all());
+            //dd($request->all());
 
             $inputAllData = $request->all();
-            $therapyName = $inputAllData['therapy_id'];
+            $allCatData = $inputAllData['category'];
+
+
+            $mainOtherEquipment = new OtherEquipment();
+            $mainOtherEquipment->name =$request->name;
+            $mainOtherEquipment->save();
+
+            $mainOtherEquipmentId = $mainOtherEquipment->id;
+
+
+            foreach($allCatData as $key => $allCatDataMain){
+
+
+                $formCategory = substr($inputAllData['category'][$key],-1);
+
+
+
+                $finalResult1 = substr($inputAllData['category'][$key], 0, -2);
+
+
+//dd($finalResult1);
+
+
+
+
+                if($formCategory == 1){
+
+
+
+                    $getPreviousQuantity = TherapyIngredient::where('name',$finalResult1)->value('quantity');
+
+                    $finalResult =$getPreviousQuantity - $request->quantity[$key];
+
+
+
+
+
+
+
+
+
+
+                         $otherInfoDetail = new OtherEquipmentDetail();
+                         $otherInfoDetail->other_equipment_id = $mainOtherEquipmentId;
+                         $otherInfoDetail->name = $finalResult1;
+                         $otherInfoDetail->quantity =$inputAllData['quantity'][$key];
+                         $otherInfoDetail->unit =$inputAllData['unit'][$key];
+                         $otherInfoDetail->save();
+
+
+                         TherapyIngredient::where('name',$finalResult1)
+               ->update([
+                   'quantity' => $finalResult
+                ]);
+
+
+
+
+
+
+
+                }elseif($formCategory == 2){
+
+
+                    $getPreviousQuantity = MedicineEquipment::where('name',$finalResult1)->value('quantity');
+
+                    $finalResult =$getPreviousQuantity - $request->quantity[$key];
+
+
+
+
+
+
+
+
+
+                         $otherInfoDetail = new OtherEquipmentDetail();
+                         $otherInfoDetail->other_equipment_id = $mainOtherEquipmentId;
+                         $otherInfoDetail->name = $finalResult1;
+                         $otherInfoDetail->quantity =$inputAllData['quantity'][$key];
+                         $otherInfoDetail->unit =$inputAllData['unit'][$key];
+                         $otherInfoDetail->save();
+
+
+                         MedicineEquipment::where('name',$finalResult1)
+               ->update([
+                   'quantity' => $finalResult
+                ]);
+
+
+
+
+
+                }elseif($formCategory == 3){
+
+
+
+                    $getPreviousQuantity = OtherIngredient::where('name',$finalResult1)->value('quantity');
+
+                    $finalResult =$getPreviousQuantity - $request->quantity[$key];
+
+
+
+
+
+
+
+                         $otherInfoDetail = new OtherEquipmentDetail();
+                         $otherInfoDetail->other_equipment_id = $mainOtherEquipmentId;
+                         $otherInfoDetail->name = $finalResult1;
+                         $otherInfoDetail->quantity =$inputAllData['quantity'][$key];
+                         $otherInfoDetail->unit =$inputAllData['unit'][$key];
+                         $otherInfoDetail->save();
+
+
+                         OtherIngredient::where('name',$finalResult1)
+               ->update([
+                   'quantity' => $finalResult
+                ]);
+
+                }
+
+
+
+            }
+
+
 
 
 
@@ -189,8 +315,20 @@ class OtherEquipmentController extends Controller
         //end new code
 
 
+   return redirect()->route('otherEquipment.index')->with('success','Added SuccessFully');
 
 
+    }
+
+
+    public function destroy($id){
+        if (is_null($this->user) || !$this->user->can('otherEquipmentDelete')) {
+            abort(403, 'Sorry !! You are Unauthorized to Delete !');
+        }
+
+
+        OtherEquipment::destroy($id);
+        return redirect()->route('otherEquipment.index')->with('error','Deleted successfully!');
 
     }
 }
